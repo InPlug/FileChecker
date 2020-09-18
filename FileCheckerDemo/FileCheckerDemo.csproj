@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" InitialTargets="ValidateAssemblyRoot" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ValidateAssemblyRoot">
+    <Error Text="'Vishnu_Root' or 'Assemblies' must be set to a valid directory-path through environment or command line." Condition="'$(Vishnu_Root)$(Vishnu_Assemblies)' == ''" />
+    <Error Text="Couldn't find a valid assembly directory." Condition="!Exists('$(Vishnu_Assemblies)') and !Exists('$(Vishnu_Root)/ReadyBin/Assemblies')" />
+  </Target>
+  <PropertyGroup>
+    <AssemblyRoot Condition="'$(Vishnu_Assemblies)'!=''">$(Vishnu_Assemblies)</AssemblyRoot>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyRoot Condition="'$(Vishnu_Assemblies)'==''">$(Vishnu_Root)/ReadyBin/Assemblies</AssemblyRoot>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">Any CPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D0259D03-0221-4E15-A8E1-BDDCA1598563}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FileCheckerDemo</RootNamespace>
+    <AssemblyName>FileCheckerDemo</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug' ">
+    <PlatformTarget>Any CPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release' ">
+    <PlatformTarget>Any CPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NetEti.Global">
+      <HintPath>$(AssemblyRoot)\NetEti.Global.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Vishnu.Interchange, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>$(AssemblyRoot)\Vishnu.Interchange.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FileChecker\FileChecker.csproj">
+      <Project>{D74361CA-349F-4E0A-8C67-D5284C2CEF7F}</Project>
+      <Name>FileChecker</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="TestFiles\GlassButton.dll.config" />
+    <None Include="TestFiles\ICSharpCode.SharpZipLib.dll.config" />
+    <None Include="TestFiles\rename.bat" />
+    <None Include="TestFiles\rename_back.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestFiles\7z.dll" />
+    <Content Include="TestFiles\7z32.dll" />
+    <Content Include="TestFiles\7z64.dll" />
+    <Content Include="TestFiles\GlassButton.dll" />
+    <Content Include="TestFiles\GlassButton.pdb" />
+    <Content Include="TestFiles\GlassButton.XML" />
+    <Content Include="TestFiles\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="TestFiles\ICSharpCode.SharpZipLib.pdb" />
+    <Content Include="TestFiles\ICSharpCode.SharpZipLib.XML" />
+    <Content Include="TestFiles\Interop.SQLDMO.dll" />
+    <Content Include="TestFiles\Microsoft.SqlServer.ConnectionInfo.dll" />
+    <Content Include="TestFiles\Microsoft.SqlServer.Management.Sdk.Sfc.dll" />
+    <Content Include="TestFiles\Microsoft.SqlServer.SmoExtended.dll" />
+    <Content Include="TestFiles\Microsoft.SqlServer.SqlClrProvider.dll" />
+    <Content Include="TestFiles\Microsoft.SqlServer.SqlEnum.dll" />
+    <Content Include="TestFiles\NetEti.AppEnvReader.dll" />
+    <Content Include="TestFiles\NetEti.AppEnvReader.pdb" />
+    <Content Include="TestFiles\NetEti.AppEnvReader.xml" />
+    <Content Include="TestFiles\NetEti.BasicAppSettings.dll" />
+    <Content Include="TestFiles\NetEti.BasicAppSettings.pdb" />
+    <Content Include="TestFiles\NetEti.BasicAppSettings.xml" />
+    <Content Include="TestFiles\NetEti.CommandLineAccess.dll" />
+    <Content Include="TestFiles\NetEti.CommandLineAccess.pdb" />
+    <Content Include="TestFiles\NetEti.CommandLineAccess.xml" />
+    <Content Include="TestFiles\NetEti.CSVAccess.dll" />
+    <Content Include="TestFiles\NetEti.CSVAccess.pdb" />
+    <Content Include="TestFiles\NetEti.CSVAccess.xml" />
+    <Content Include="TestFiles\NetEti.DBAccess.dll" />
+    <Content Include="TestFiles\NetEti.DBAccess.pdb" />
+    <Content Include="TestFiles\NetEti.DBAccess.xml" />
+    <Content Include="TestFiles\NetEti.DBAdmin.dll" />
+    <Content Include="TestFiles\NetEti.DBAdmin.pdb" />
+    <Content Include="TestFiles\NetEti.DBAdmin.xml" />
+    <Content Include="TestFiles\NetEti.EnvAccess.dll" />
+    <Content Include="TestFiles\NetEti.EnvAccess.pdb" />
+    <Content Include="TestFiles\NetEti.EnvAccess.xml" />
+    <Content Include="TestFiles\NetEti.FTPAccess.dll" />
+    <Content Include="TestFiles\NetEti.FTPAccess.pdb" />
+    <Content Include="TestFiles\NetEti.FTPAccess.xml" />
+    <Content Include="TestFiles\NetEti.Global.dll" />
+    <Content Include="TestFiles\NetEti.Global.pdb" />
+    <Content Include="TestFiles\NetEti.Global.xml" />
+    <Content Include="TestFiles\NetEti.InfoController.dll" />
+    <Content Include="TestFiles\NetEti.InfoController.pdb" />
+    <Content Include="TestFiles\NetEti.InfoController.xml" />
+    <Content Include="TestFiles\NetEti.IniAccess.dll" />
+    <Content Include="TestFiles\NetEti.IniAccess.pdb" />
+    <Content Include="TestFiles\NetEti.IniAccess.xml" />
+    <Content Include="TestFiles\NetEti.Logging.dll" />
+    <Content Include="TestFiles\NetEti.Logging.pdb" />
+    <Content Include="TestFiles\NetEti.Logging.xml" />
+    <Content Include="TestFiles\NetEti.MVVMini.dll" />
+    <Content Include="TestFiles\NetEti.MVVMini.pdb" />
+    <Content Include="TestFiles\NetEti.MVVMini.xml" />
+    <Content Include="TestFiles\NetEti.ProgressTimer.dll" />
+    <Content Include="TestFiles\NetEti.ProgressTimer.pdb" />
+    <Content Include="TestFiles\NetEti.ProgressTimer.xml" />
+    <Content Include="TestFiles\NetEti.RegAccess.dll" />
+    <Content Include="TestFiles\NetEti.RegAccess.pdb" />
+    <Content Include="TestFiles\NetEti.RegAccess.xml" />
+    <Content Include="TestFiles\NetEti.SettingsAccess.dll" />
+    <Content Include="TestFiles\NetEti.SettingsAccess.pdb" />
+    <Content Include="TestFiles\NetEti.SettingsAccess.xml" />
+    <Content Include="TestFiles\NetEti.TaskWorker.dll" />
+    <Content Include="TestFiles\NetEti.TaskWorker.pdb" />
+    <Content Include="TestFiles\NetEti.TaskWorker.xml" />
+    <Content Include="TestFiles\NetEti.Threader.dll" />
+    <Content Include="TestFiles\NetEti.Threader.pdb" />
+    <Content Include="TestFiles\NetEti.Threader.xml" />
+    <Content Include="TestFiles\NetEti.XMLAccess.dll" />
+    <Content Include="TestFiles\NetEti.XMLAccess.pdb" />
+    <Content Include="TestFiles\NetEti.XMLAccess.xml" />
+    <Content Include="TestFiles\NetEti.ZipAccess.dll" />
+    <Content Include="TestFiles\NetEti.ZipAccess.pdb" />
+    <Content Include="TestFiles\NetEti.ZipAccess.xml" />
+    <Content Include="TestFiles\NetworkMappingsRefresher.dll" />
+    <Content Include="TestFiles\NetworkMappingsRefresher.pdb" />
+    <Content Include="TestFiles\NetworkMappingsRefresher.XML" />
+    <Content Include="TestFiles\ObjectSerializer.dll" />
+    <Content Include="TestFiles\ObjectSerializer.pdb" />
+    <Content Include="TestFiles\ObjectSerializer.XML" />
+    <Content Include="TestFiles\Renci.SshNet.dll" />
+    <Content Include="TestFiles\SevenZipSharp.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(TargetDir)TestFiles"
+del /Q "$(TargetDir)TestFiles\*.*"
+copy /y "$(ProjectDir)TestFiles\*.*" "$(TargetDir)TestFiles\*.*" 
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
