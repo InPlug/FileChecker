@@ -170,7 +170,7 @@ namespace FileChecker
             }
             string dir = Path.GetDirectoryName(path);
             string fileMask = path.Replace(dir, "").TrimStart(Path.DirectorySeparatorChar);
-            while (!Directory.Exists(dir))
+            while (!String.IsNullOrEmpty(dir) && !Directory.Exists(dir))
             {
                 dir = Path.GetDirectoryName(dir);
                 if (dir == null)
@@ -185,7 +185,14 @@ namespace FileChecker
                     break;
                 }
                 // fileMask = path.Replace(dir, "").TrimStart(Path.DirectorySeparatorChar); // Geht nicht wegen regulärer Ausdrücke, die mit "\" beginnen.
-                fileMask = path.Replace(dir, "");
+                if (String.IsNullOrEmpty(dir))
+                {
+                    fileMask = path;
+                }
+                else
+                {
+                    fileMask = path.Replace(dir, "");
+                }
                 if (fileMask.StartsWith(@"\"))
                 {
                     fileMask = fileMask.Substring(1);
@@ -197,6 +204,16 @@ namespace FileChecker
             {
                 failIfNotFound = true;
                 comparer = comparer.TrimEnd('!');
+            }
+            if (!Directory.Exists(dir))
+            {
+                //if (failIfNotFound)
+                //{
+                    this._fatalException = new FileNotFoundException(
+                        String.Format("Das Verzeichnis '{0}' wurde nicht gefunden.", dir));
+                    throw this._fatalException;
+                //}
+
             }
             if (comparer != "<" && comparer != ">")
             {
