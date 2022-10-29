@@ -63,7 +63,7 @@ namespace FileChecker
             /// <summary>
             /// Überschriebene ToString()-Methode.
             /// </summary>
-            /// <returns>Id des Knoten + ":" + ReturnObject.ToString()</returns>
+            /// <returns>Dieses Objekt.ToString()</returns>
             public override string ToString()
             {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -80,10 +80,10 @@ namespace FileChecker
             }
 
             /// <summary>
-            /// Vergleicht Dieses Result mit einem übergebenen Result nach Inhalt.
+            /// Vergleicht dieses Objekt mit einem übergebenen Objekt nach Inhalt.
             /// </summary>
             /// <param name="obj"></param>
-            /// <returns>True, wenn das übergebene Result inhaltlich (ohne Timestamp) gleich diesem Result ist.</returns>
+            /// <returns>True, wenn der übergebene SubResultListContainer inhaltlich gleich diesem SubResultListContainer ist.</returns>
             public override bool Equals(object obj)
             {
                 if (obj == null || this.GetType() != obj.GetType())
@@ -110,9 +110,9 @@ namespace FileChecker
             }
 
             /// <summary>
-            /// Erzeugt einen eindeutigen Hashcode für dieses Result.
+            /// Erzeugt einen eindeutigen Hashcode für dieses Objekt.
             /// </summary>
-            /// <returns></returns>
+            /// <returns>Hashcode (int).</returns>
             public override int GetHashCode()
             {
                 return (this.ToString()).GetHashCode();
@@ -182,7 +182,7 @@ namespace FileChecker
             /// <summary>
             /// Überschriebene ToString()-Methode.
             /// </summary>
-            /// <returns>Id des Knoten + ":" + ReturnObject.ToString()</returns>
+            /// <returns>Dieses Objekt.ToString()</returns>
             public override string ToString()
             {
                 string resultStr = this.LogicalResult == null ? "null" : this.LogicalResult.ToString();
@@ -191,11 +191,10 @@ namespace FileChecker
             }
 
             /// <summary>
-            /// Vergleicht Dieses Result mit einem übergebenen Result nach Inhalt.
-            /// Der Timestamp wird bewusst nicht in den Vergleich einbezogen.
+            /// Vergleicht dieses Objekt mit einem übergebenen Objekt nach Inhalt.
             /// </summary>
-            /// <param name="obj"></param>
-            /// <returns>True, wenn das übergebene Result inhaltlich (ohne Timestamp) gleich diesem Result ist.</returns>
+            /// <param name="obj">Das zu vergleichende SubResult.</param>
+            /// <returns>True, wenn das übergebene SubResult inhaltlich gleich diesem SubResult ist.</returns>
             public override bool Equals(object obj)
             {
                 if (obj == null || this.GetType() != obj.GetType())
@@ -214,10 +213,9 @@ namespace FileChecker
             }
 
             /// <summary>
-            /// Erzeugt einen eindeutigen Hashcode für dieses Result.
-            /// Der Timestamp wird bewusst nicht in den Vergleich einbezogen.
+            /// Erzeugt einen eindeutigen Hashcode für dieses Objekt.
             /// </summary>
-            /// <returns></returns>
+            /// <returns>Hashcode (int).</returns>
             public override int GetHashCode()
             {
                 return (this.ToString()).GetHashCode();
@@ -339,7 +337,7 @@ namespace FileChecker
 
         /// <summary>
         /// Überschriebene ToString()-Methode - stellt alle öffentlichen Properties
-        /// als einen (zweizeiligen) aufbereiteten String zur Verfügung.
+        /// als einen (mehrzeiligen) aufbereiteten String zur Verfügung.
         /// </summary>
         /// <returns>Alle öffentlichen Properties als ein String aufbereitet.</returns>
         public override string ToString()
@@ -358,11 +356,10 @@ namespace FileChecker
         }
 
         /// <summary>
-        /// Vergleicht dieses Result mit einem übergebenen Result nach Inhalt.
-        /// Der Timestamp wird bewusst nicht in den Vergleich einbezogen.
+        /// Vergleicht dieses Objekt mit einem übergebenen Objekt nach Inhalt.
         /// </summary>
-        /// <param name="obj">Das zu vergleichende Result.</param>
-        /// <returns>True, wenn das übergebene Result inhaltlich (ohne Timestamp) gleich diesem Result ist.</returns>
+        /// <param name="obj">Das zu vergleichende FileCheckerReturnObject.</param>
+        /// <returns>True, wenn das übergebene FileCheckerReturnObject inhaltlich gleich diesem FileCheckerReturnObject ist.</returns>
         public override bool Equals(object obj)
         {
             if (obj == null || this.GetType() != obj.GetType())
@@ -381,8 +378,7 @@ namespace FileChecker
         }
 
         /// <summary>
-        /// Erzeugt einen eindeutigen Hashcode für dieses Result.
-        /// Der Timestamp wird bewusst nicht in den Vergleich einbezogen.
+        /// Erzeugt einen eindeutigen Hashcode für dieses Objekt.
         /// </summary>
         /// <returns>Hashcode (int).</returns>
         public override int GetHashCode()
