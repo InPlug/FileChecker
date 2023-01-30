@@ -1,15 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" InitialTargets="ValidateAssemblyRoot" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="ValidateAssemblyRoot">
-    <Error Text="'Vishnu_Root' or 'Assemblies' must be set to a valid directory-path through environment or command line." Condition="'$(Vishnu_Root)$(Vishnu_Assemblies)' == ''" />
-    <Error Text="Couldn't find a valid assembly directory." Condition="!Exists('$(Vishnu_Assemblies)') and !Exists('$(Vishnu_Root)/ReadyBin/Assemblies')" />
-  </Target>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <AssemblyRoot Condition="'$(Vishnu_Assemblies)'!=''">$(Vishnu_Assemblies)</AssemblyRoot>
+    <VishnuRoot>$(ProjectDir)../../..</VishnuRoot>
+    <AssemblyRoot>$(VishnuRoot)/ReadyBin/Assemblies</AssemblyRoot>
   </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyRoot Condition="'$(Vishnu_Assemblies)'==''">$(Vishnu_Root)/ReadyBin/Assemblies</AssemblyRoot>
-  </PropertyGroup>
+  <Import Project="$(ProjectDir)../../AddOn/proj/*" Condition="exists('$(ProjectDir)../../AddOn/proj')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Any CPU</Platform>
@@ -94,95 +89,26 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="TestFiles\GlassButton.dll.config" />
-    <None Include="TestFiles\ICSharpCode.SharpZipLib.dll.config" />
-    <None Include="TestFiles\rename.bat" />
-    <None Include="TestFiles\rename_back.bat" />
+    <None Include="TestFiles\FileCheckerDemo.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestFiles\7z.dll" />
-    <Content Include="TestFiles\7z32.dll" />
-    <Content Include="TestFiles\7z64.dll" />
-    <Content Include="TestFiles\GlassButton.dll" />
-    <Content Include="TestFiles\GlassButton.pdb" />
-    <Content Include="TestFiles\GlassButton.XML" />
-    <Content Include="TestFiles\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="TestFiles\ICSharpCode.SharpZipLib.pdb" />
-    <Content Include="TestFiles\ICSharpCode.SharpZipLib.XML" />
-    <Content Include="TestFiles\Interop.SQLDMO.dll" />
-    <Content Include="TestFiles\Microsoft.SqlServer.ConnectionInfo.dll" />
-    <Content Include="TestFiles\Microsoft.SqlServer.Management.Sdk.Sfc.dll" />
-    <Content Include="TestFiles\Microsoft.SqlServer.SmoExtended.dll" />
-    <Content Include="TestFiles\Microsoft.SqlServer.SqlClrProvider.dll" />
-    <Content Include="TestFiles\Microsoft.SqlServer.SqlEnum.dll" />
-    <Content Include="TestFiles\NetEti.AppEnvReader.dll" />
-    <Content Include="TestFiles\NetEti.AppEnvReader.pdb" />
-    <Content Include="TestFiles\NetEti.AppEnvReader.xml" />
-    <Content Include="TestFiles\NetEti.BasicAppSettings.dll" />
-    <Content Include="TestFiles\NetEti.BasicAppSettings.pdb" />
-    <Content Include="TestFiles\NetEti.BasicAppSettings.xml" />
-    <Content Include="TestFiles\NetEti.CommandLineAccess.dll" />
-    <Content Include="TestFiles\NetEti.CommandLineAccess.pdb" />
-    <Content Include="TestFiles\NetEti.CommandLineAccess.xml" />
-    <Content Include="TestFiles\NetEti.CSVAccess.dll" />
-    <Content Include="TestFiles\NetEti.CSVAccess.pdb" />
-    <Content Include="TestFiles\NetEti.CSVAccess.xml" />
-    <Content Include="TestFiles\NetEti.DBAccess.dll" />
-    <Content Include="TestFiles\NetEti.DBAccess.pdb" />
-    <Content Include="TestFiles\NetEti.DBAccess.xml" />
-    <Content Include="TestFiles\NetEti.DBAdmin.dll" />
-    <Content Include="TestFiles\NetEti.DBAdmin.pdb" />
-    <Content Include="TestFiles\NetEti.DBAdmin.xml" />
-    <Content Include="TestFiles\NetEti.EnvAccess.dll" />
-    <Content Include="TestFiles\NetEti.EnvAccess.pdb" />
-    <Content Include="TestFiles\NetEti.EnvAccess.xml" />
-    <Content Include="TestFiles\NetEti.FTPAccess.dll" />
-    <Content Include="TestFiles\NetEti.FTPAccess.pdb" />
-    <Content Include="TestFiles\NetEti.FTPAccess.xml" />
-    <Content Include="TestFiles\NetEti.Global.dll" />
-    <Content Include="TestFiles\NetEti.Global.pdb" />
-    <Content Include="TestFiles\NetEti.Global.xml" />
-    <Content Include="TestFiles\NetEti.InfoController.dll" />
-    <Content Include="TestFiles\NetEti.InfoController.pdb" />
-    <Content Include="TestFiles\NetEti.InfoController.xml" />
-    <Content Include="TestFiles\NetEti.IniAccess.dll" />
-    <Content Include="TestFiles\NetEti.IniAccess.pdb" />
-    <Content Include="TestFiles\NetEti.IniAccess.xml" />
-    <Content Include="TestFiles\NetEti.Logging.dll" />
-    <Content Include="TestFiles\NetEti.Logging.pdb" />
-    <Content Include="TestFiles\NetEti.Logging.xml" />
-    <Content Include="TestFiles\NetEti.MVVMini.dll" />
-    <Content Include="TestFiles\NetEti.MVVMini.pdb" />
-    <Content Include="TestFiles\NetEti.MVVMini.xml" />
-    <Content Include="TestFiles\NetEti.ProgressTimer.dll" />
-    <Content Include="TestFiles\NetEti.ProgressTimer.pdb" />
-    <Content Include="TestFiles\NetEti.ProgressTimer.xml" />
-    <Content Include="TestFiles\NetEti.RegAccess.dll" />
-    <Content Include="TestFiles\NetEti.RegAccess.pdb" />
-    <Content Include="TestFiles\NetEti.RegAccess.xml" />
-    <Content Include="TestFiles\NetEti.SettingsAccess.dll" />
-    <Content Include="TestFiles\NetEti.SettingsAccess.pdb" />
-    <Content Include="TestFiles\NetEti.SettingsAccess.xml" />
-    <Content Include="TestFiles\NetEti.TaskWorker.dll" />
-    <Content Include="TestFiles\NetEti.TaskWorker.pdb" />
-    <Content Include="TestFiles\NetEti.TaskWorker.xml" />
-    <Content Include="TestFiles\NetEti.Threader.dll" />
-    <Content Include="TestFiles\NetEti.Threader.pdb" />
-    <Content Include="TestFiles\NetEti.Threader.xml" />
-    <Content Include="TestFiles\NetEti.XMLAccess.dll" />
-    <Content Include="TestFiles\NetEti.XMLAccess.pdb" />
-    <Content Include="TestFiles\NetEti.XMLAccess.xml" />
-    <Content Include="TestFiles\NetEti.ZipAccess.dll" />
-    <Content Include="TestFiles\NetEti.ZipAccess.pdb" />
-    <Content Include="TestFiles\NetEti.ZipAccess.xml" />
-    <Content Include="TestFiles\NetworkMappingsRefresher.dll" />
-    <Content Include="TestFiles\NetworkMappingsRefresher.pdb" />
-    <Content Include="TestFiles\NetworkMappingsRefresher.XML" />
-    <Content Include="TestFiles\ObjectSerializer.dll" />
-    <Content Include="TestFiles\ObjectSerializer.pdb" />
-    <Content Include="TestFiles\ObjectSerializer.XML" />
-    <Content Include="TestFiles\Renci.SshNet.dll" />
-    <Content Include="TestFiles\SevenZipSharp.dll" />
+    <Content Include="TestFiles\FileChecker.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\FileCheckerDemo.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\NetEti.Global.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\Vishnu.Interchange.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
