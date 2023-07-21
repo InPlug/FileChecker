@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NetEti.Globals;
 using Vishnu.Interchange;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace FileChecker
 {
@@ -26,12 +26,12 @@ namespace FileChecker
         /// des Checkers geändert hat, muss aber zumindest aber einmal zum
         /// Schluss der Verarbeitung aufgerufen werden.
         /// </summary>
-        public event CommonProgressChangedEventHandler NodeProgressChanged;
+        public event ProgressChangedEventHandler? NodeProgressChanged;
 
         /// <summary>
         /// Rückgabe-Objekt des Checkers
         /// </summary>
-        public object ReturnObject
+        public object? ReturnObject
         {
             get { return this._returnObject; }
             set { this._returnObject = value; }
@@ -46,25 +46,25 @@ namespace FileChecker
         /// <param name="treeParameters">Für den gesamten Tree gültige Parameter oder null.</param>
         /// <param name="source">Auslösendes TreeEvent oder null.</param>
         /// <returns>True, False oder null</returns>
-        public bool? Run(object checkerParameters, TreeParameters treeParameters, TreeEvent source)
+        public bool? Run(object? checkerParameters, TreeParameters treeParameters, TreeEvent source)
         {
             if (this._fatalException != null)
             {
                 throw this._fatalException;
             }
-            this.OnNodeProgressChanged(this.GetType().Name, 100, 0, ItemsTypes.items);
-            if (this._paraString != checkerParameters.ToString())
+            this.OnNodeProgressChanged(0);
+            if (this._paraString != checkerParameters?.ToString())
             {
                 this._tracedFiles.Clear();
             }
-            this._paraString = checkerParameters.ToString();
+            this._paraString = checkerParameters?.ToString();
             this.evaluateParameters(this._paraString, treeParameters, source);
 
-            this.OnNodeProgressChanged(this.GetType().Name, 100, 50, ItemsTypes.items);
+            this.OnNodeProgressChanged(50);
             bool? rtn = this.checkFiles();
             this._fileCheckerReturnObject.LogicalResult = rtn;
             this._returnObject = this._fileCheckerReturnObject;
-            this.OnNodeProgressChanged(this.GetType().Name, 100, 100, ItemsTypes.items);
+            this.OnNodeProgressChanged(100);
             return rtn;
         }
 
@@ -76,25 +76,29 @@ namespace FileChecker
             this._fatalException = null;
             this._paraString = null;
             this._returnObject = null;
-            this._fileCheckerReturnObject = null;
             this._tracedFiles = new Dictionary<string, TracedFile>();
+            this._fileCheckerReturnObject = new FileCheckerReturnObject();
         }
 
-        private string _paraString;
-        private object _returnObject = null;
+        private string? _paraString;
+        private object? _returnObject = null;
         private FileCheckerReturnObject _fileCheckerReturnObject;
         private Dictionary<string, TracedFile> _tracedFiles;
-        private Exception _fatalException;
+        private Exception? _fatalException;
         private bool _exceptionToFalse;
 
         private class TracedFile
         {
             public DateTime Inserted;
-            public FileInfo Info;
+            public FileInfo? Info;
         }
 
         private bool? checkFiles()
         {
+            if (String.IsNullOrEmpty(this._fileCheckerReturnObject.FileMask) || String.IsNullOrEmpty(this._fileCheckerReturnObject.SearchDir))
+            {
+                return null;
+            }
             this.ReturnObject = null;
             this._exceptionToFalse = true;
             bool? rtn = true;
@@ -118,7 +122,8 @@ namespace FileChecker
             }
             catch (ArgumentException ex)
             {
-                FileNotFoundException exp = new FileNotFoundException(String.Format("Der Pfad {0} + {1} ist nicht gültig.", this._fileCheckerReturnObject.SearchDir, this._fileCheckerReturnObject.FileMask), ex);
+                FileNotFoundException exp = new FileNotFoundException(String.Format("Der Pfad {0} + {1} ist nicht gültig.",
+                    this._fileCheckerReturnObject.SearchDir, this._fileCheckerReturnObject.FileMask), ex);
                 if (!this._exceptionToFalse)
                 {
                     throw exp;
@@ -138,7 +143,7 @@ namespace FileChecker
                     }
                 }
             }
-            this._fileCheckerReturnObject.SubResults.SubResults.Clear();
+            this._fileCheckerReturnObject.SubResults?.SubResults?.Clear();
             if (!this.filesToResult(files))
             {
                 rtn = false;
@@ -153,9 +158,9 @@ namespace FileChecker
         /// Format von Alter: Einheit + ':' + ganzzahliger Wert; Einheit: S=Sekunden, M=Minuten, H=Stunden, D=Tage."</param>
         /// <param name="treeParameters">Für den gesamten Tree gültige Parameter oder null.</param>
         /// <param name="source">Auslösendes TreeEvent oder null.</param>
-        private void evaluateParameters(string checkerParameters, object treeParameters, TreeEvent source)
+        private void evaluateParameters(string? checkerParameters, object treeParameters, TreeEvent source)
         {
-            string[] para = checkerParameters.Split('|');
+            string[] para = checkerParameters?.Split('|') ?? throw new ArgumentException("checkerParameters sind null.");
             string mode = para.Length > 0 ? para[0].Trim().ToUpper() : "";
             if (!(new List<string>() { "SIZE", "COUNT", "AGE", "TRACE" }).Contains(mode))
             {
@@ -168,15 +173,15 @@ namespace FileChecker
                 this._fatalException = new ArgumentException(this.syntax(String.Format("{0}: Es muss ein Pfad angegeben werden.", this.GetType().Name)));
                 throw this._fatalException;
             }
-            string dir = Path.GetDirectoryName(path);
-            string fileMask = path.Replace(dir, "").TrimStart(Path.DirectorySeparatorChar);
+            string? dir = Path.GetDirectoryName(path);
+            string fileMask = path.Replace(dir ?? "", "").TrimStart(Path.DirectorySeparatorChar);
             while (!String.IsNullOrEmpty(dir) && !Directory.Exists(dir))
             {
                 dir = Path.GetDirectoryName(dir);
-                if (dir == null)
+                if (String.IsNullOrEmpty(dir))
                 {
                     dir = Path.GetDirectoryName(path);
-                    fileMask = path.Replace(dir, "").TrimStart(Path.DirectorySeparatorChar);
+                    fileMask = path.Replace(dir ?? "", "").TrimStart(Path.DirectorySeparatorChar);
                     if (!this._exceptionToFalse)
                     {
                         this._fatalException = new DirectoryNotFoundException(this.syntax(String.Format("{0}: Der Pfad wurde nicht gefunden: {1}.", this.GetType().Name, path)));
@@ -338,7 +343,7 @@ namespace FileChecker
                         default:
                             break;
                     }
-                    this._fileCheckerReturnObject.SubResults.SubResults.Add(new FileCheckerReturnObject.SubResult()
+                    this._fileCheckerReturnObject.SubResults?.SubResults?.Add(new FileCheckerReturnObject.SubResult()
                     {
                         LogicalResult = fileRtn,
                         FileName = Path.GetFileName(file),
@@ -365,7 +370,7 @@ namespace FileChecker
             {
                 if (this._fileCheckerReturnObject.Mode == "AGE" || this._fileCheckerReturnObject.Mode == "SIZE")
                 {
-                    if (this._fileCheckerReturnObject.Comparer != "<" || this._fileCheckerReturnObject.FailIfNotFound)
+                    if (this._fileCheckerReturnObject.Comparer != "<" || this._fileCheckerReturnObject.FailIfNotFound == true)
                     {
                         rtn = false;
                     }
@@ -395,11 +400,11 @@ namespace FileChecker
                    );
         }
 
-        private void OnNodeProgressChanged(string itemsName, int countAll, int countSucceeded, ItemsTypes itemsType)
+        private void OnNodeProgressChanged(int progressPercentage)
         {
             if (NodeProgressChanged != null)
             {
-                NodeProgressChanged(null, new CommonProgressChangedEventArgs(itemsName, countAll, countSucceeded, itemsType, null));
+                NodeProgressChanged(null, new ProgressChangedEventArgs(progressPercentage, null));
             }
         }
 
