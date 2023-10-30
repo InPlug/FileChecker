@@ -139,13 +139,13 @@ namespace FileChecker
             public string? FileName { get; set; }
 
             /// <summary>
-            /// Die Größe einer Detei.
+            /// Die Größe einer Datei.
             ///  </summary>
             [DataMember]
             public long? FileSize { get; set; }
 
             /// <summary>
-            /// Die Zeitspanne seit der letzten Änderung einer Detei oder
+            /// Die Zeitspanne seit der letzten Änderung einer Datei oder
             /// die Dauer der Überwachung dieser Datei (Trace = true).
             ///  </summary>
             [DataMember]
